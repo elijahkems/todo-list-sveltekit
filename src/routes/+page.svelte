@@ -12,15 +12,15 @@
 	}
 </script>
 
-<main class="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-6">
+<main class="bg-background flex min-h-screen flex-col items-center justify-center p-6">
 	<header class="mb-10 text-center">
-		<h1 class="mb-2 text-4xl font-bold text-blue-600">Welcome to Your To-Do List App!</h1>
-		<p class="text-lg text-gray-700">Stay organized and boost your productivity.</p>
+		<h1 class=" text-accent mb-2 text-4xl font-bold">Welcome to Your To-Do List App!</h1>
+		<p class="text-secondaryText text-lg">Stay organized and boost your productivity.</p>
 	</header>
 
-	<section class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-		<h2 class="mb-4 text-2xl font-semibold text-gray-800">Features You'll Love</h2>
-		<ul class="list-inside list-disc space-y-2 text-gray-600">
+	<section class="bg-secondaryBackground w-full max-w-md rounded-lg p-6 shadow-lg">
+		<h2 class="text-primaryText mb-4 text-2xl font-semibold">Features You'll Love</h2>
+		<ul class=" text-secondaryText list-inside list-disc space-y-2">
 			<li>🗂️ Organize tasks by categories.</li>
 			<li>🔔 Set reminders to never miss a deadline.</li>
 			<li>✅ Mark tasks as complete for a sense of achievement.</li>
@@ -32,14 +32,14 @@
 		{#if !user.logged}
 			<a
 				href="/login"
-				class="inline-block rounded-lg bg-blue-500 px-6 py-3 text-white transition duration-200 hover:bg-blue-600"
+				class="bg-accent inline-block rounded-lg px-6 py-3 text-white transition duration-200"
 			>
 				Log In
 			</a>
 		{/if}
 		<a
 			href="/todo"
-			class="inline-block rounded-lg border border-blue-500 px-6 py-3 text-blue-500 transition duration-200 hover:bg-blue-500 hover:text-white"
+			class="text-accent hover:bg-accent border-accent inline-block rounded-lg border px-6 py-3 transition duration-200 hover:text-white"
 		>
 			Get Started
 		</a>

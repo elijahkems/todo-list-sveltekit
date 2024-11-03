@@ -37,15 +37,15 @@
 {#if isModalOpen}
 	<div
 		transition:fade={{ duration: 200 }}
-		class="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
+		class="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-70"
 	>
 		<!-- modal -->
 		<div
-			class="relative w-full max-w-lg rounded-lg bg-white p-8 shadow-lg"
+			class="bg-background relative w-full max-w-lg rounded-lg p-8 shadow-lg"
 			transition:scale={{ duration: 200 }}
 		>
 			<button
-				class=" absolute right-3 top-2 border-transparent text-3xl font-bold"
+				class=" text-primaryText absolute right-3 top-2 border-transparent text-3xl font-bold"
 				onclick={closeModal}
 			>
 				&times;
@@ -56,7 +56,7 @@
 					type="text"
 					bind:value={title}
 					placeholder="title"
-					class="rounded-md border-transparent pl-3 italic text-gray-500 focus:outline-none focus:ring-2 focus:ring-black"
+					class=" bg-lightShade text-primaryText focus:ring-accent rounded-md border-transparent pl-3 italic focus:outline-none focus:ring-2"
 				/>
 			</div>
 			<!-- list div -->
@@ -65,11 +65,11 @@
 					type="text"
 					bind:value={newTask}
 					placeholder="Add a new task"
-					class="flex-grow rounded-md border border-gray-300 p-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+					class="bg-lightShade border-lightShade focus:ring-accent text-primaryText flex-grow rounded-md border p-3 text-base focus:outline-none focus:ring-2"
 				/>
 				<button
 					onclick={addTask}
-					class="ml-2 rounded-md bg-blue-500 px-4 py-3 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-blue-700"
+					class="bg-accent border-accent ml-2 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2"
 				>
 					Add
 				</button>

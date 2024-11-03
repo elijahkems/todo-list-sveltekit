@@ -23,12 +23,12 @@
 	}
 </script>
 
-<div class="flex min-h-screen flex-col items-center bg-gray-50 p-6">
+<div class="bg-background flex min-h-screen flex-col items-center p-6">
 	<!-- add new list -->
 	<div class="mb-4">
 		<button
 			onclick={createList}
-			class="ml-2 rounded-md bg-blue-500 px-4 py-3 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-blue-700"
+			class="bg-accent hover:bg-accent border-accent focus:ring-accent active:bg-accent ml-2 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2"
 		>
 			New List
 		</button>
