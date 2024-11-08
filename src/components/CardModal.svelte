@@ -3,6 +3,7 @@
 	import { listStore } from '$lib/stores.svelte';
 	import { is } from 'drizzle-orm';
 	import { onMount } from 'svelte';
+	import { derived } from 'svelte/store';
 
 	// props
 	let { isModalOpen = $bindable(false), title } = $props();

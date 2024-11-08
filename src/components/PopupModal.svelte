@@ -1,57 +1,50 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
-	import { listStore } from '$lib/stores.svelte';
-	import { is } from 'drizzle-orm';
-	import { onMount } from 'svelte';
-
 	// props
-	let { isModalOpen = $bindable(false), title, showPopUp } = $props();
+	let { isPopUpOpen = $bindable(false), confirmDelete = $bindable(), title } = $props();
 	// state
-	let tasks = $state(listStore[title]);
-	let newTask = $state('');
-	let overlay = $state();
-
 	// functions
+	function closeModal() {
+		isPopUpOpen = false;
+	}
 
-	function addTask() {
-		if (newTask.trim()) {
-			tasks.push({
-				id: tasks.length + 1,
-				text: newTask,
-				completed: false
-			});
-			newTask = '';
-		}
+	function cancelHandler() {
+		confirmDelete = false;
+		closeModal();
 	}
-	function deleteTask(id) {
-		tasks = tasks.filter((task) => task.id !== id);
+	function okayHandler() {
+		confirmDelete = true;
+		closeModal();
 	}
-	function closeModal(event) {
-		isModalOpen = false;
-		showPopUp();
-	}
-	$effect(() => {});
 </script>
 
-{#if isModalOpen}
+{#if isPopUpOpen}
 	<!-- overlay div -->
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
-		bind:this={overlay}
-		role="button"
-		tabindex="0"
-		onclickcapture={(e) => {
-			if (e.target == overlay) closeModal();
-		}}
 		transition:fade={{ duration: 200 }}
 		class=" fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-70"
 	>
 		<!-- modal -->
 		<div
-			class="relative w-full max-w-lg rounded-lg bg-background p-8 shadow-lg"
+			class="relative max-w-lg rounded-lg bg-background p-8 px-20 shadow-lg"
 			transition:scale={{ duration: 200 }}
 		>
-			<h2>this is a pop</h2>
+			<p class=" p-3 text-xl text-primaryText">Would you like to delete {title}</p>
+			<div class=" flex justify-around text-primaryText">
+				<button
+					onclick={okayHandler}
+					class=" rounded-md border-gray-600 bg-secondaryBackground px-6 py-3 hover:opacity-80"
+				>
+					okay
+				</button>
+				<button
+					onclick={cancelHandler}
+					class="rounded-md border-none bg-accent px-6 py-3 hover:opacity-80"
+				>
+					cancel
+				</button>
+			</div>
 		</div>
 	</div>
 {/if}

@@ -5,24 +5,21 @@
 	import PopupModal from './PopupModal.svelte';
 
 	// props
-	let { todo, title, key } = $props();
+	let { todo, title } = $props();
 	//state
 	let isModalOpen = $state(false);
 	let isPopUpOpen = $state(false);
+	let confirmDelete = $state(false);
 
 	// functions
 	function deleteTask(title, id) {
 		listStore[title] = listStore[title].filter((task) => task.id != id);
 	}
-
 	function deleteCard() {
-		let popup = confirm('Would you like to delete ' + title);
-		if (popup) delete listStore[title];
-	}
-	function showPopUp() {
+		if (confirmDelete) delete listStore[title];
 		isPopUpOpen = !isPopUpOpen;
-		if (!isPopUpOpen) isPopUpOpen = true;
 	}
+
 	function editCard() {
 		isModalOpen = !isModalOpen;
 		if (!isModalOpen) isModalOpen = true;
@@ -32,6 +29,9 @@
 		$inspect(todo);
 	});
 </script>
+
+<!-- popup modal  -->
+<PopupModal bind:isPopUpOpen bind:confirmDelete {title} />
 
 <div class="w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">
 	<!--card title -->
@@ -50,8 +50,7 @@
 	</div>
 	<!-- card modal -->
 	<CardModal {isModalOpen} {title} />
-	<!-- pop up modal -->
-	<PopupModal isModalOpen={isPopUpOpen} {showPopUp} />
+	<!-- list todos -->
 	{#if todo.length == 0}
 		<p class="text-center text-gray-500">No tasks available. Add a task to get started!</p>
 	{:else}

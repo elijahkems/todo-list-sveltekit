@@ -7,7 +7,7 @@
 	// props
 	let { isModalOpen = false } = $props();
 	// state
-	let title = $state('new list_' + (Object.entries(listStore).length + 1));
+	let title = $state(newTitle());
 	let tasks = $state([]);
 	let newTask = $state('');
 	let overlay = $state();
@@ -28,13 +28,27 @@
 		tasks = tasks.filter((task) => task.id !== id);
 	}
 	function closeModal(event) {
-		if (tasks.length != 0) listStore[title] = tasks;
+		if (tasks.length != 0) {
+			if (listStore[title]) {
+				title = newTitle();
+				listStore[title] = tasks;
+				console.log('title ', title);
+			} else {
+				listStore[title] = tasks;
+			}
+		}
 		isModalOpen = false;
 		tasks = [];
 	}
-
+	function newTitle() {
+		return 'new list_' + (Object.entries(listStore).length + 1);
+	}
 	$effect(() => {
-		if (listStore) title = 'new list_' + (Object.entries(listStore).length + 1);
+		title = newTitle();
+	});
+	onMount(() => {
+		console.log(' mounting title: ', title);
+		return () => console.log(' unmounting ');
 	});
 </script>
 
