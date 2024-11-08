@@ -5,10 +5,9 @@
 	import { onMount } from 'svelte';
 
 	// props
-	let { isModalOpen = false } = $props();
+	let { isModalOpen = $bindable(false), title } = $props();
 	// state
-	let title = $state('new list_' + (Object.entries(listStore).length + 1));
-	let tasks = $state([]);
+	let tasks = $state(listStore[title]);
 	let newTask = $state('');
 	let overlay = $state();
 
@@ -28,14 +27,9 @@
 		tasks = tasks.filter((task) => task.id !== id);
 	}
 	function closeModal(event) {
-		if (tasks.length != 0) listStore[title] = tasks;
 		isModalOpen = false;
-		tasks = [];
 	}
-
-	$effect(() => {
-		if (listStore) title = 'new list_' + (Object.entries(listStore).length + 1);
-	});
+	$effect(() => {});
 </script>
 
 {#if isModalOpen}

@@ -1,58 +1,32 @@
 <script lang="ts">
 	import { LibSQLTransaction } from 'drizzle-orm/libsql';
 	import Modal from '../../components/Modal.svelte';
-	// import { list } from '$lib/stores.svelte';
+	import { listStore } from '$lib/stores.svelte';
 	import Card from '../../components/Card.svelte';
+	import PopupModal from '../../components/PopupModal.svelte';
 	let isModalOpen = $state(false);
+	let isPopUpOpen = $state(false);
 	// let tasks = $state([
 	// 	{ id: 1, text: 'Learn SvelteKit', completed: false },
 	// 	{ id: 2, text: 'Build a To-Do App', completed: false }
 	// ]);
 
-	let tasks = $state([]);
+	// let tasks = $state([]);
 
-	function deleteTask(key, id) {
-		let task = list[key];
-		tasks = tasks.filter((task) => task.id !== id);
-		list[key] = task;
-		console.log(task);
-	}
+	// function deleteTask(key, id) {
+	// 	let task = listStore[key];
+	// 	tasks = tasks.filter((task) => task.id !== id);
+	// 	listStore[key] = task;
+	// 	console.log(task);
+	// }
 	function createList() {
 		isModalOpen = !isModalOpen;
 		if (!isModalOpen) isModalOpen = true;
 	}
-
-	function createListStore(intial = []) {
-		let list = $state([
-			{ id: 1, text: 'Learn SvelteKit', completed: true },
-			{ id: 2, text: 'Build a To-Do App', completed: false }
-		]);
-
-		return {
-			addTodo(text: string) {
-				let newItem = {
-					id: list.length + 1,
-					text: text,
-					completed: false
-				};
-				list.push(newItem);
-			},
-			getList() {
-				return list;
-			},
-			deleteTodo(id: number) {
-				list = list.filter((todo) => todo.id != id);
-			},
-			toggleComplete(key) {
-				list[key].completed = !list[key].completed;
-			},
-			list
-		};
+	function showPopUp() {
+		isPopUpOpen = !isPopUpOpen;
+		if (!isPopUpOpen) isPopUpOpen = true;
 	}
-
-	console.clear();
-	const list = createListStore();
-	console.log(list.getList());
 </script>
 
 <div class="flex min-h-screen flex-col items-center bg-background p-6">
@@ -65,25 +39,18 @@
 			New List
 		</button>
 	</div>
+	<!-- newlist modal -->
 	<Modal {isModalOpen} />
+	<!-- popup modal -->
+	<PopupModal isModalOpen={isPopUpOpen} {showPopUp} />
 
 	<!-- list the todos -->
 	<div class="mx-auto grid max-w-4xl grid-cols-1 gap-8 px-6 md:grid-cols-2 lg:grid-cols-2">
 		<!-- {#each Object.entries(list) as [key, singleList]}
 			<Card {singleList} {key} />
 		{/each} -->
-		{#each list.getList() as singleList, key}
-			<div class="rounded-md border border-black p-3 text-primaryText">
-				<h2 class="text-accent">{key}</h2>
-				<button class="p-2" onclick={() => (singleList.completed = !singleList.completed)}
-					>done</button
-				>
-				{#if singleList.completed}
-					<p class=" text-lightShade line-through">{singleList.text}</p>
-				{:else}
-					<p>{singleList.text}</p>
-				{/if}
-			</div>
+		{#each Object.entries(listStore) as [title, todo], key}
+			<Card {todo} {title} {key} />
 		{/each}
 	</div>
 </div>

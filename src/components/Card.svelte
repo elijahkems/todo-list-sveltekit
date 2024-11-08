@@ -1,18 +1,63 @@
 <script>
+	import { listStore } from '$lib/stores.svelte';
+	import CardModal from './CardModal.svelte';
+	import Modal from './Modal.svelte';
+	import PopupModal from './PopupModal.svelte';
+
 	// props
-	let { singleList, key } = $props();
-	let tasks = $state([]);
+	let { todo, title, key } = $props();
+	//state
+	let isModalOpen = $state(false);
+	let isPopUpOpen = $state(false);
+
+	// functions
+	function deleteTask(title, id) {
+		listStore[title] = listStore[title].filter((task) => task.id != id);
+	}
+
+	function deleteCard() {
+		let popup = confirm('Would you like to delete ' + title);
+		if (popup) delete listStore[title];
+	}
+	function showPopUp() {
+		isPopUpOpen = !isPopUpOpen;
+		if (!isPopUpOpen) isPopUpOpen = true;
+	}
+	function editCard() {
+		isModalOpen = !isModalOpen;
+		if (!isModalOpen) isModalOpen = true;
+	}
+
+	$effect(() => {
+		$inspect(todo);
+	});
 </script>
 
-<div class="bg-secondaryBackground w-full max-w-lg rounded-lg p-8 shadow-lg">
-	<h2 class="text-accent mb-6 text-center text-3xl font-semibold">{key}</h2>
-
-	{#if singleList.length === 0}
+<div class="w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">
+	<!--card title -->
+	<div class="flex justify-between">
+		<h2 class="mb-6 text-xl font-semibold text-accent">{title}</h2>
+		<div>
+			<button
+				onclick={editCard}
+				class=" rounded-md border-none px-3 text-secondaryText hover:text-accent">edit</button
+			>
+			<button
+				onclick={deleteCard}
+				class=" rounded-md border-none px-3 text-secondaryText hover:text-red-500">delete</button
+			>
+		</div>
+	</div>
+	<!-- card modal -->
+	<CardModal {isModalOpen} {title} />
+	<!-- pop up modal -->
+	<PopupModal isModalOpen={isPopUpOpen} {showPopUp} />
+	{#if todo.length == 0}
 		<p class="text-center text-gray-500">No tasks available. Add a task to get started!</p>
 	{:else}
 		<ul class="space-y-4">
-			{#each singleList as task}
-				<li class="bg-lightShade flex items-center justify-between rounded-lg p-4 shadow">
+			{#each todo as task}
+				<li class="flex items-center justify-between rounded-lg bg-lightShade p-4 shadow">
 					<div class="flex items-center">
 						<input type="checkbox" bind:checked={task.completed} class="  mr-2 h-5 w-5 rounded" />
 						<span class={task.completed ? ' text-secondaryText line-through' : 'text-primaryText'}
@@ -20,8 +65,8 @@
 						>
 					</div>
 					<button
-						onclick={() => deleteTask(key, task.id)}
-						class=" hover:text-accent text-secondaryText ml-3 border border-transparent"
+						onclick={() => deleteTask(title, task.id)}
+						class=" ml-3 border border-transparent text-secondaryText hover:text-accent"
 					>
 						remove
 					</button>
