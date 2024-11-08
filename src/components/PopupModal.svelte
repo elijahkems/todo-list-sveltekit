@@ -1,21 +1,9 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
 	// props
-	let { isPopUpOpen = $bindable(false), confirmDelete = $bindable(), title } = $props();
+	let { isPopUpOpen = $bindable(false), onCancel, onConfirm, title } = $props();
 	// state
 	// functions
-	function closeModal() {
-		isPopUpOpen = false;
-	}
-
-	function cancelHandler() {
-		confirmDelete = false;
-		closeModal();
-	}
-	function okayHandler() {
-		confirmDelete = true;
-		closeModal();
-	}
 </script>
 
 {#if isPopUpOpen}
@@ -33,13 +21,13 @@
 			<p class=" p-3 text-xl text-primaryText">Would you like to delete {title}</p>
 			<div class=" flex justify-around text-primaryText">
 				<button
-					onclick={okayHandler}
+					onclick={onConfirm}
 					class=" rounded-md border-gray-600 bg-secondaryBackground px-6 py-3 hover:opacity-80"
 				>
 					okay
 				</button>
 				<button
-					onclick={cancelHandler}
+					onclick={onCancel}
 					class="rounded-md border-none bg-accent px-6 py-3 hover:opacity-80"
 				>
 					cancel

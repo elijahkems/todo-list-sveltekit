@@ -9,29 +9,31 @@
 	//state
 	let isModalOpen = $state(false);
 	let isPopUpOpen = $state(false);
-	let confirmDelete = $state(false);
 
 	// functions
 	function deleteTask(title, id) {
 		listStore[title] = listStore[title].filter((task) => task.id != id);
 	}
 	function deleteCard() {
-		if (confirmDelete) delete listStore[title];
 		isPopUpOpen = !isPopUpOpen;
 	}
-
 	function editCard() {
 		isModalOpen = !isModalOpen;
 		if (!isModalOpen) isModalOpen = true;
 	}
 
-	$effect(() => {
-		$inspect(todo);
-	});
+	function cancelHandler() {
+		isPopUpOpen = !isPopUpOpen;
+	}
+	function confirmHandler() {
+		if (listStore[title]) delete listStore[title];
+		isPopUpOpen = !isPopUpOpen;
+		console.log('deleting ..', title);
+	}
 </script>
 
 <!-- popup modal  -->
-<PopupModal bind:isPopUpOpen bind:confirmDelete {title} />
+<PopupModal bind:isPopUpOpen onCancel={cancelHandler} onConfirm={confirmHandler} {title} />
 
 <div class="w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">
 	<!--card title -->

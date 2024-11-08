@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 
 	// props
-	let { isModalOpen = false } = $props();
+	let { isModalOpen = $bindable(false) } = $props();
 	// state
 	let title = $state(newTitle());
 	let tasks = $state([]);
@@ -27,7 +27,7 @@
 	function deleteTask(id) {
 		tasks = tasks.filter((task) => task.id !== id);
 	}
-	function closeModal(event) {
+	function closeModal() {
 		if (tasks.length != 0) {
 			if (listStore[title]) {
 				title = newTitle();
@@ -41,14 +41,16 @@
 		tasks = [];
 	}
 	function newTitle() {
-		return 'new list_' + (Object.entries(listStore).length + 1);
+		let count = 1;
+		let title = 'new list_' + count;
+		while (listStore[title]) {
+			count++;
+			title = 'new list_' + count;
+		}
+		return title;
 	}
 	$effect(() => {
 		title = newTitle();
-	});
-	onMount(() => {
-		console.log(' mounting title: ', title);
-		return () => console.log(' unmounting ');
 	});
 </script>
 
