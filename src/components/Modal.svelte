@@ -2,15 +2,18 @@
 	import { fade, scale } from 'svelte/transition';
 	import { list } from '$lib/stores.svelte';
 	import { is } from 'drizzle-orm';
+	import { onMount } from 'svelte';
 
 	// props
-	let { isModalOpen } = $props();
+	let { isModalOpen = false } = $props();
 	// state
 	let title = $state('new list_' + (Object.entries(list).length + 1));
 	let tasks = $state([]);
 	let newTask = $state('');
+	let overlay = $state();
 
 	// functions
+
 	function addTask() {
 		if (newTask.trim()) {
 			tasks.push({
@@ -24,28 +27,37 @@
 	function deleteTask(id) {
 		tasks = tasks.filter((task) => task.id !== id);
 	}
-	function closeModal() {
+	function closeModal(event) {
 		if (tasks.length != 0) list[title] = tasks;
 		isModalOpen = false;
 		tasks = [];
 	}
+
 	$effect(() => {
 		if (list) title = 'new list_' + (Object.entries(list).length + 1);
 	});
 </script>
 
 {#if isModalOpen}
+	<!-- overlay div -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
+		bind:this={overlay}
+		role="button"
+		tabindex="0"
+		onclickcapture={(e) => {
+			if (e.target == overlay) closeModal();
+		}}
 		transition:fade={{ duration: 200 }}
-		class="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-70"
+		class=" fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-70"
 	>
 		<!-- modal -->
 		<div
-			class="bg-background relative w-full max-w-lg rounded-lg p-8 shadow-lg"
+			class="relative w-full max-w-lg rounded-lg bg-background p-8 shadow-lg"
 			transition:scale={{ duration: 200 }}
 		>
 			<button
-				class=" text-primaryText absolute right-3 top-2 border-transparent text-3xl font-bold"
+				class=" absolute right-3 top-2 border-transparent text-3xl font-bold text-primaryText"
 				onclick={closeModal}
 			>
 				&times;
@@ -56,7 +68,7 @@
 					type="text"
 					bind:value={title}
 					placeholder="title"
-					class=" bg-lightShade text-primaryText focus:ring-accent rounded-md border-transparent pl-3 italic focus:outline-none focus:ring-2"
+					class=" rounded-md border-transparent bg-lightShade pl-3 italic text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
 				/>
 			</div>
 			<!-- list div -->
@@ -65,11 +77,11 @@
 					type="text"
 					bind:value={newTask}
 					placeholder="Add a new task"
-					class="bg-lightShade border-lightShade focus:ring-accent text-primaryText flex-grow rounded-md border p-3 text-base focus:outline-none focus:ring-2"
+					class="flex-grow rounded-md border border-lightShade bg-lightShade p-3 text-base text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
 				/>
 				<button
 					onclick={addTask}
-					class="bg-accent border-accent ml-2 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2"
+					class="ml-2 rounded-md border-accent bg-accent px-4 py-3 text-white focus:outline-none focus:ring-2"
 				>
 					Add
 				</button>
