@@ -11,6 +11,7 @@
 	let tasks = $state(listStore[title]);
 	let newTask = $state('');
 	let overlay = $state();
+	let oldTitle = $state(title);
 
 	// functions
 
@@ -28,9 +29,16 @@
 		tasks = tasks.filter((task) => task.id !== id);
 	}
 	function closeModal(event) {
+		if (title.length != 0) {
+			if (listStore[title]) listStore[title] = tasks;
+			else {
+				delete listStore[oldTitle];
+				listStore[title] = tasks;
+			}
+		}
+		title = oldTitle;
 		isModalOpen = false;
 	}
-	$effect(() => {});
 </script>
 
 {#if isModalOpen}
@@ -62,8 +70,10 @@
 				<input
 					type="text"
 					bind:value={title}
-					placeholder="title"
-					class=" rounded-md border-transparent bg-lightShade pl-3 italic text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
+					placeholder="title cannot be empty"
+					class=" {title.length == 0
+						? 'focus:ring-red-400'
+						: ''} rounded-md border-transparent bg-lightShade pl-3 italic text-primaryText focus:outline-none focus:ring-2"
 				/>
 			</div>
 			<!-- list div -->

@@ -7,19 +7,33 @@
 	// props
 	let { isModalOpen = $bindable(false) } = $props();
 	// state
-	let title = $state(newTitle());
+	let title = $state('');
 	let tasks = $state([]);
 	let newTask = $state('');
 	let overlay = $state();
+	let uniqueId = $state(getUniqueId());
+	let dateCreated = $state(new Date().toLocaleString());
 
 	// functions
-
+	function getUniqueId() {
+		let id = crypto.randomUUID().slice(0, 12);
+		let count = 1;
+		while (listStore[id]) {
+			id = crypto.randomUUID().slice(0, 12);
+			count++;
+		}
+		console.log('count :', count);
+		return id;
+	}
 	function addTask() {
 		if (newTask.trim()) {
 			tasks.push({
+				title: title,
 				id: tasks.length + 1,
 				text: newTask,
-				completed: false
+				completed: false,
+				dateCreated: dateCreated,
+				recentUpdate: ''
 			});
 			newTask = '';
 		}
@@ -28,29 +42,13 @@
 		tasks = tasks.filter((task) => task.id !== id);
 	}
 	function closeModal() {
-		if (tasks.length != 0) {
-			if (listStore[title]) {
-				title = newTitle();
-				listStore[title] = tasks;
-				console.log('title ', title);
-			} else {
-				listStore[title] = tasks;
-			}
-		}
+		if (tasks.length != 0) listStore[uniqueId] = tasks;
 		isModalOpen = false;
 		tasks = [];
 	}
-	function newTitle() {
-		let count = 1;
-		let title = 'new list_' + count;
-		while (listStore[title]) {
-			count++;
-			title = 'new list_' + count;
-		}
-		return title;
-	}
 	$effect(() => {
-		title = newTitle();
+		uniqueId = getUniqueId();
+		$inspect(listStore);
 	});
 </script>
 

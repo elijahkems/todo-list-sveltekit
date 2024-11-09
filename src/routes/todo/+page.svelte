@@ -5,6 +5,7 @@
 	import Card from '../../components/Card.svelte';
 	// state
 	let isModalOpen = $state(false);
+	let numberOfTodos = $derived(Object.entries(listStore).length);
 	// functions
 	function createList() {
 		isModalOpen = !isModalOpen;
@@ -20,12 +21,13 @@
 		>
 			New List
 		</button>
+		<p class=" text-lg text-primaryText">{numberOfTodos} {numberOfTodos == 1 ? 'todo' : 'todos'}</p>
 	</div>
 	<!-- newlist modal -->
 	<Modal bind:isModalOpen />
 	<!-- list the todos -->
 	<div class="grid max-w-4xl grid-cols-1 gap-8 px-6 md:mx-10 md:grid-cols-2 lg:grid-cols-2">
-		{#each Object.entries(listStore) as [title, todo], key}
+		{#each Object.entries(listStore).reverse() as [title, todo], key}
 			<Card {todo} {title} {key} />
 		{/each}
 	</div>

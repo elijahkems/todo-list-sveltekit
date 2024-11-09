@@ -11,9 +11,6 @@
 	let isPopUpOpen = $state(false);
 
 	// functions
-	function deleteTask(title, id) {
-		listStore[title] = listStore[title].filter((task) => task.id != id);
-	}
 	function deleteCard() {
 		isPopUpOpen = !isPopUpOpen;
 	}
@@ -65,12 +62,6 @@
 							>{task.text}</span
 						>
 					</div>
-					<button
-						onclick={() => deleteTask(title, task.id)}
-						class=" ml-3 border border-transparent text-secondaryText hover:text-accent"
-					>
-						remove
-					</button>
 				</li>
 			{/each}
 		</ul>
