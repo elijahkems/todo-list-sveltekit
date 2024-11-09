@@ -6,7 +6,7 @@
 
 	// props
 	let { list, uniqueId } = $props();
-	let { todos, createdAt, updatedAt, title } = list;
+	let { todos, createdAt, updatedAt, title } = $derived(listStore[uniqueId]);
 	//state
 	let isModalOpen = $state(false);
 	let isPopUpOpen = $state(false);
@@ -24,17 +24,14 @@
 		isPopUpOpen = !isPopUpOpen;
 	}
 	function confirmHandler() {
-		if (listStore[title]) delete listStore[title];
+		if (listStore[uniqueId]) delete listStore[uniqueId];
 		isPopUpOpen = !isPopUpOpen;
 		console.log('deleting ..', title);
 	}
-	$effect(() => {
-		$inspect(list);
-	});
 </script>
 
 <!-- popup modal  -->
-<PopupModal bind:isPopUpOpen onCancel={cancelHandler} onConfirm={confirmHandler} {uniqueId} />
+<PopupModal bind:isPopUpOpen onCancel={cancelHandler} onConfirm={confirmHandler} {title} />
 <CardModal {isModalOpen} {uniqueId} />
 
 <div class="h-full w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">

@@ -6,19 +6,18 @@
 	import { derived } from 'svelte/store';
 
 	// props
-	let { isModalOpen = $bindable(false), title, uniqueId } = $props();
+	let { isModalOpen = $bindable(false), uniqueId } = $props();
 	// state
-	let tasks = $state(listStore[title]);
 	let newTask = $state('');
 	let overlay = $state();
-	let oldTitle = $state(title);
+	let { todos, title, createdAt, updatedAt } = $state(listStore[uniqueId]);
 
 	// functions
 
 	function addTask() {
 		if (newTask.trim()) {
-			tasks.push({
-				id: tasks.length + 1,
+			newTodo.push({
+				id: todos.length + 1,
 				text: newTask,
 				completed: false
 			});
@@ -26,19 +25,16 @@
 		}
 	}
 	function deleteTask(id) {
-		tasks = tasks.filter((task) => task.id !== id);
+		newTodo = newTodo.filter((task) => task.id !== id);
 	}
 	function closeModal(event) {
-		if (title.length != 0) {
-			if (listStore[title]) listStore[title] = tasks;
-			else {
-				delete listStore[oldTitle];
-				listStore[title] = tasks;
-			}
-		}
-		title = oldTitle;
+		listStore[uniqueId].todos = newTodo;
+		listStore[uniqueId].title = title;
+		newTask = '';
 		isModalOpen = false;
 	}
+
+	$effect(() => {});
 </script>
 
 {#if isModalOpen}
@@ -94,7 +90,7 @@
 
 			<ul class="space-y-4">
 				<!-- all lists -->
-				{#each tasks as task}
+				{#each newTodo as task}
 					<li
 						class="flex items-center justify-between rounded-lg bg-gray-100 p-4 shadow hover:bg-gray-200"
 					>

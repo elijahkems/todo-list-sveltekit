@@ -22,3 +22,25 @@ export let listStore = $state({
 		updatedAt: new Date().toLocaleString()
 	}
 });
+export const sampleTodos = $state([
+	'Buy groceries',
+	'Walk the dog',
+	'Prepare dinner',
+	'Finish project report',
+	'Call mom',
+	'Pay utility bills',
+	'Read a new book',
+	'Organize the garage',
+	'Respond to emails',
+	'Clean the kitchen',
+	'Exercise for 30 minutes',
+	'Plan weekend trip',
+	'Schedule dentist appointment',
+	'Update resume',
+	'Mow the lawn',
+	'Backup computer files',
+	'Write blog post',
+	'Water the plants',
+	'Take out the trash',
+	'Learn a new recipe'
+]);

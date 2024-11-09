@@ -10,6 +10,7 @@
 	function createList() {
 		isModalOpen = !isModalOpen;
 	}
+	$effect(() => $inspect(listStore));
 </script>
 
 <div class="flex min-h-screen flex-col items-center bg-background p-6">

@@ -1,6 +1,6 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
-	import { listStore } from '$lib/stores.svelte';
+	import { listStore, sampleTodos } from '$lib/stores.svelte';
 	import { is } from 'drizzle-orm';
 	import { onMount } from 'svelte';
 	//obj structure
@@ -17,15 +17,29 @@
 	// props
 	let { isModalOpen = $bindable(false) } = $props();
 	// state
-	let title = $state('new_todo_');
+	let title = $state(getNewTitle());
 	let todos = $state([]);
-	let newTask = $state('');
+	let newTask = $state(getRandomTodo(sampleTodos));
 	let overlay = $state();
 	let uniqueId = $state(getUniqueId());
 	let createdAt = $state(new Date().toLocaleString());
 	let updatedAt = $state('');
 
 	// functions
+	function getRandomTodo(todos) {
+		const randomIndex = Math.floor(Math.random() * todos.length);
+		return todos[randomIndex];
+	}
+	function getNewTitle(str = 'new_todo_') {
+		let allTitles = Object.values(listStore).map((list) => list.title);
+		let count = 1;
+		let title = str + count;
+		while (allTitles.includes(title)) {
+			title = str + ++count;
+		}
+		return title;
+	}
+
 	function getUniqueId() {
 		let id = crypto.randomUUID().slice(0, 12);
 		while (listStore[id]) {
@@ -41,7 +55,7 @@
 				text: newTask,
 				completed: false
 			});
-			newTask = '';
+			newTask = getRandomTodo(sampleTodos);
 		}
 		updatedAt = new Date().toLocaleString();
 	}
@@ -61,8 +75,9 @@
 		todos = [];
 	}
 	$effect(() => {
+		title = getNewTitle();
 		uniqueId = getUniqueId();
-		$inspect(listStore);
+		$inspect(uniqueId);
 	});
 </script>
 
