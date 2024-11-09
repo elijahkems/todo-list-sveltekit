@@ -1,7 +1,7 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
 	// props
-	let { isPopUpOpen = $bindable(false), onCancel, onConfirm, title } = $props();
+	let { isPopUpOpen = $bindable(false), onCancel, onConfirm, uniqueId } = $props();
 	// state
 	// functions
 </script>
@@ -18,7 +18,7 @@
 			class="relative max-w-lg rounded-lg bg-background p-8 px-20 shadow-lg"
 			transition:scale={{ duration: 200 }}
 		>
-			<p class=" p-3 text-xl text-primaryText">Would you like to delete {title}</p>
+			<p class=" p-3 text-xl text-primaryText">Would you like to delete {uniqueId}</p>
 			<div class=" flex justify-around text-primaryText">
 				<button
 					onclick={onConfirm}

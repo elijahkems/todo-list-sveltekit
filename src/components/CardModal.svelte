@@ -6,7 +6,7 @@
 	import { derived } from 'svelte/store';
 
 	// props
-	let { isModalOpen = $bindable(false), title } = $props();
+	let { isModalOpen = $bindable(false), title, uniqueId } = $props();
 	// state
 	let tasks = $state(listStore[title]);
 	let newTask = $state('');

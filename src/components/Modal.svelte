@@ -3,48 +3,62 @@
 	import { listStore } from '$lib/stores.svelte';
 	import { is } from 'drizzle-orm';
 	import { onMount } from 'svelte';
+	//obj structure
+	// '36fb5d95-ad2': {
+	// 	title: 'Groceries',
+	// 	todos: [
+	// 		{ id: 1, text: 'Buy milk', completed: false },
+	// 		{ id: 2, text: 'Buy bread', completed: true }
+	// 	],
+	// 	createdAt: new Date('2024-01-01'),
+	// 	updatedAt: new Date('2024-02-01')
+	// },
 
 	// props
 	let { isModalOpen = $bindable(false) } = $props();
 	// state
-	let title = $state('');
-	let tasks = $state([]);
+	let title = $state('new_todo_');
+	let todos = $state([]);
 	let newTask = $state('');
 	let overlay = $state();
 	let uniqueId = $state(getUniqueId());
-	let dateCreated = $state(new Date().toLocaleString());
+	let createdAt = $state(new Date().toLocaleString());
+	let updatedAt = $state('');
 
 	// functions
 	function getUniqueId() {
 		let id = crypto.randomUUID().slice(0, 12);
-		let count = 1;
 		while (listStore[id]) {
 			id = crypto.randomUUID().slice(0, 12);
-			count++;
 		}
-		console.log('count :', count);
 		return id;
 	}
+
 	function addTask() {
 		if (newTask.trim()) {
-			tasks.push({
-				title: title,
-				id: tasks.length + 1,
+			todos.push({
+				id: todos.length + 1,
 				text: newTask,
-				completed: false,
-				dateCreated: dateCreated,
-				recentUpdate: ''
+				completed: false
 			});
 			newTask = '';
 		}
+		updatedAt = new Date().toLocaleString();
 	}
 	function deleteTask(id) {
-		tasks = tasks.filter((task) => task.id !== id);
+		todos = todos.filter((task) => task.id !== id);
 	}
 	function closeModal() {
-		if (tasks.length != 0) listStore[uniqueId] = tasks;
+		if (todos.length != 0) {
+			listStore[uniqueId] = {
+				title,
+				todos,
+				createdAt,
+				updatedAt
+			};
+		}
 		isModalOpen = false;
-		tasks = [];
+		todos = [];
 	}
 	$effect(() => {
 		uniqueId = getUniqueId();
@@ -103,7 +117,7 @@
 
 			<ul class="space-y-4">
 				<!-- all lists -->
-				{#each tasks as task}
+				{#each todos as task}
 					<li
 						class="flex items-center justify-between rounded-lg bg-gray-100 p-4 shadow hover:bg-gray-200"
 					>

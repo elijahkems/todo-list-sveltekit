@@ -27,8 +27,8 @@
 	<Modal bind:isModalOpen />
 	<!-- list the todos -->
 	<div class="grid max-w-4xl grid-cols-1 gap-8 px-6 md:mx-10 md:grid-cols-2 lg:grid-cols-2">
-		{#each Object.entries(listStore).reverse() as [title, todo], key}
-			<Card {todo} {title} {key} />
+		{#each Object.entries(listStore).reverse() as [uniqueId, list], key}
+			<Card {list} {key} {uniqueId} />
 		{/each}
 	</div>
 </div>
