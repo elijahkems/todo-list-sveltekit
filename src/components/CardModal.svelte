@@ -1,39 +1,53 @@
 <script>
 	import { fade, scale } from 'svelte/transition';
-	import { listStore } from '$lib/stores.svelte';
+	import { listStore, sampleTodos } from '$lib/stores.svelte';
 	import { is } from 'drizzle-orm';
 	import { onMount } from 'svelte';
-	import { derived } from 'svelte/store';
+	//obj structure
+	// '36fb5d95-ad2': {
+	// 	title: 'Groceries',
+	// 	todos: [
+	// 		{ id: 1, text: 'Buy milk', completed: false },
+	// 		{ id: 2, text: 'Buy bread', completed: true }
+	// 	],
+	// 	createdAt: new Date('2024-01-01'),
+	// 	updatedAt: new Date('2024-02-01')
+	// },
 
 	// props
 	let { isModalOpen = $bindable(false), uniqueId } = $props();
 	// state
-	let newTask = $state('');
+	let { title, todos, createdAt, updatedAt } = listStore[uniqueId];
+	let newTitle = $state(title);
+	let newTodos = $state(todos);
+	let newTask = $state(getRandomTodo(sampleTodos));
 	let overlay = $state();
-	let { todos, title, createdAt, updatedAt } = $state(listStore[uniqueId]);
 
 	// functions
+	function getRandomTodo(todos) {
+		const randomIndex = Math.floor(Math.random() * todos.length);
+		return todos[randomIndex];
+	}
 
 	function addTask() {
 		if (newTask.trim()) {
-			newTodo.push({
-				id: todos.length + 1,
+			newTodos.push({
+				id: newTodos.length + 1,
 				text: newTask,
 				completed: false
 			});
-			newTask = '';
+			newTask = getRandomTodo(sampleTodos);
 		}
+		updatedAt = new Date().toLocaleString();
 	}
 	function deleteTask(id) {
-		newTodo = newTodo.filter((task) => task.id !== id);
+		newTodos = newTodos.filter((task) => task.id !== id);
 	}
-	function closeModal(event) {
-		listStore[uniqueId].todos = newTodo;
-		listStore[uniqueId].title = title;
-		newTask = '';
+	function closeModal() {
+		listStore[uniqueId].title = newTitle;
+		listStore[uniqueId].todos = newTodos;
 		isModalOpen = false;
 	}
-
 	$effect(() => {});
 </script>
 
@@ -65,11 +79,9 @@
 			<div class="mb-4 flex justify-between">
 				<input
 					type="text"
-					bind:value={title}
-					placeholder="title cannot be empty"
-					class=" {title.length == 0
-						? 'focus:ring-red-400'
-						: ''} rounded-md border-transparent bg-lightShade pl-3 italic text-primaryText focus:outline-none focus:ring-2"
+					bind:value={newTitle}
+					placeholder="title"
+					class=" rounded-md border-transparent bg-transparent pl-3 italic text-secondaryText focus:outline-none focus:ring-2 focus:ring-secondaryText"
 				/>
 			</div>
 			<!-- list div -->
@@ -90,7 +102,7 @@
 
 			<ul class="space-y-4">
 				<!-- all lists -->
-				{#each newTodo as task}
+				{#each newTodos as task}
 					<li
 						class="flex items-center justify-between rounded-lg bg-gray-100 p-4 shadow hover:bg-gray-200"
 					>

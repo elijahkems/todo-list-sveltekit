@@ -36,8 +36,10 @@
 
 <div class="h-full w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">
 	<!--card title -->
-	<div class="flex justify-between">
-		<h2 class="mb-6 text-xl font-semibold text-accent">{title}</h2>
+	<div class=" flex justify-between">
+		<h2 class="  w-fit overflow-hidden whitespace-pre-line text-xl font-semibold text-accent">
+			{title} <span> ({todos.length})</span>
+		</h2>
 		<div>
 			<button
 				onclick={editCard}
@@ -45,7 +47,7 @@
 			>
 			<button
 				onclick={deleteCard}
-				class=" rounded-md border-none px-3 text-secondaryText hover:text-red-500">delete</button
+				class=" rounded-md border-none px-3 text-secondaryText hover:text-red-400">delete</button
 			>
 		</div>
 	</div>

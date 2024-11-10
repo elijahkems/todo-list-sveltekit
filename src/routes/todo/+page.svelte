@@ -22,7 +22,10 @@
 		>
 			New List
 		</button>
-		<p class=" text-lg text-primaryText">{numberOfTodos} {numberOfTodos == 1 ? 'todo' : 'todos'}</p>
+		<p class=" mt-6 text-lg text-secondaryText">
+			You have {numberOfTodos}
+			{numberOfTodos == 1 ? 'todo' : 'todos'}
+		</p>
 	</div>
 	<!-- newlist modal -->
 	<Modal bind:isModalOpen />
