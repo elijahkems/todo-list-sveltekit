@@ -26,7 +26,6 @@
 	function confirmHandler() {
 		if (listStore[uniqueId]) delete listStore[uniqueId];
 		isPopUpOpen = !isPopUpOpen;
-		console.log('deleting ..', title);
 	}
 </script>
 
@@ -56,7 +55,7 @@
 	{#if todos.length == 0}
 		<p class="text-center text-gray-500">No tasks available. Add a task to get started!</p>
 	{:else}
-		<div class="flex h-full flex-col">
+		<div class="mt-2 flex h-full flex-col">
 			<ul class=" space-y-4">
 				{#each todos as task}
 					<li class=" flex items-center justify-between rounded-lg bg-lightShade p-4 shadow">

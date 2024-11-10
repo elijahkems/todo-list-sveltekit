@@ -18,7 +18,7 @@
 	<div class="mb-4 ml-16 mr-auto">
 		<button
 			onclick={createList}
-			class=" rounded-md border-accent bg-accent px-4 py-3 text-primaryText hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent active:bg-accent"
+			class=" rounded-md border-accent bg-accent px-4 py-3 text-primaryText hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-accent active:bg-accent"
 		>
 			New List
 		</button>

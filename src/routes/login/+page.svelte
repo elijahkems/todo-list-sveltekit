@@ -25,9 +25,9 @@
 	// 		}
 </script>
 
-<div class="bg-background flex min-h-screen items-center justify-center p-6">
-	<div class="bg-secondaryBackground w-full max-w-md rounded-lg p-8 shadow-lg">
-		<h2 class="text-accent mb-6 text-center text-3xl font-semibold">
+<div class="flex min-h-screen items-center justify-center bg-background p-6">
+	<div class="w-full max-w-md rounded-lg bg-secondaryBackground p-8 shadow-lg">
+		<h2 class="mb-6 text-center text-3xl font-semibold text-accent">
 			{user.logged ? 'You are Logged In' : 'Create Username'}
 		</h2>
 
@@ -38,12 +38,12 @@
 					type="text"
 					bind:value={text}
 					placeholder="Enter your username"
-					class="focus:ring-accent w-full rounded-md border border-gray-300 p-3 text-base focus:outline-none focus:ring-2"
+					class=" w-full rounded-md border-none bg-lightShade p-3 text-base text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
 				/>
 				<button
 					type="submit"
 					on:click={clickHandler}
-					class="hover:bg-accent bg-accent border-accent w-full rounded-md border px-4 py-2 text-white focus:outline-none"
+					class="w-full rounded-md border border-accent bg-accent px-4 py-2 text-white hover:bg-accent focus:outline-none"
 				>
 					Log In
 				</button>
@@ -52,7 +52,7 @@
 			<button
 				type="submit"
 				on:click={logOutHandler}
-				class="bg-accent hover:bg-accent focus:ring-accent border-accent active:bg-accent w-full rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2"
+				class="w-full rounded-md border-accent bg-accent px-4 py-2 text-white hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent active:bg-accent"
 			>
 				Log Out
 			</button>

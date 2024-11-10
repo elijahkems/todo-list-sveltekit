@@ -77,7 +77,6 @@
 	$effect(() => {
 		title = getNewTitle();
 		uniqueId = getUniqueId();
-		$inspect(uniqueId);
 	});
 </script>
 
@@ -111,20 +110,30 @@
 					type="text"
 					bind:value={title}
 					placeholder="title"
-					class=" rounded-md border-transparent bg-lightShade pl-3 italic text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
+					class=" rounded-md border-transparent bg-transparent pl-3 italic text-secondaryText focus:outline-none focus:ring-2 focus:ring-secondaryText"
 				/>
 			</div>
 			<!-- list div -->
-			<div class="mb-4 flex">
-				<input
-					type="text"
-					bind:value={newTask}
-					placeholder="Add a new task"
-					class="flex-grow rounded-md border border-lightShade bg-lightShade p-3 text-base text-primaryText focus:outline-none focus:ring-2 focus:ring-accent"
-				/>
+			<div class="just mb-4 flex">
+				<!-- input container -->
+				<div
+					class="flex flex-grow rounded-md border-2 border-transparent bg-lightShade focus-within:border-accent"
+				>
+					<input
+						type="text"
+						bind:value={newTask}
+						placeholder="Add a new task"
+						class="flex-grow rounded-md border border-lightShade bg-transparent p-3 text-base text-primaryText focus:outline-none"
+					/>
+					<button
+						onclick={() => (newTask = '')}
+						class="mx-4 border-transparent bg-transparent pb-2 text-2xl text-background"
+						>&lt
+					</button>
+				</div>
 				<button
 					onclick={addTask}
-					class="ml-2 rounded-md border-accent bg-accent px-4 py-3 text-white focus:outline-none focus:ring-2"
+					class="ml-2 rounded-md border-none bg-accent px-4 py-3 text-white hover:opacity-80"
 				>
 					Add
 				</button>
