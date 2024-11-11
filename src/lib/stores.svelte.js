@@ -1,7 +1,10 @@
 export let user = $state({ username: '', logged: false, userUrl: 0 });
-
+export let isSideOpen = $state({
+	state: false
+});
 export let listStore = $state({
 	'36fb5d95-ad2': {
+		category: '',
 		title: 'Groceries',
 		todos: [
 			{ id: 1, text: 'Buy milk', completed: false },
@@ -11,6 +14,7 @@ export let listStore = $state({
 		updatedAt: new Date().toLocaleString()
 	},
 	'8401b83b-054': {
+		category: '',
 		title: 'test app',
 		todos: [
 			{ id: 1, text: 'add lists', completed: false },

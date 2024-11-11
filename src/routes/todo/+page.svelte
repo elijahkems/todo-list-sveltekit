@@ -3,17 +3,22 @@
 	import Modal from '../../components/Modal.svelte';
 	import { listStore } from '$lib/stores.svelte';
 	import Card from '../../components/Card.svelte';
+	import SideBar from '../../components/SideBar.svelte';
+
 	// state
 	let isModalOpen = $state(false);
 	let numberOfTodos = $derived(Object.entries(listStore).length);
+	let isSideOpen = $state(true);
 	// functions
 	function createList() {
 		isModalOpen = !isModalOpen;
 	}
-	$effect(() => $inspect(listStore));
 </script>
 
+<SideBar />
+<!-- todo page -->
 <div class="flex min-h-screen flex-col items-center bg-background p-6">
+	<!-- sidebar -->
 	<!-- add new list -->
 	<div class="mb-4 ml-16 mr-auto">
 		<button

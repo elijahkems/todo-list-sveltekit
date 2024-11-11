@@ -24,6 +24,7 @@
 	let uniqueId = $state(getUniqueId());
 	let createdAt = $state(new Date().toLocaleString());
 	let updatedAt = $state('');
+	let categories = $state(Object.values(listStore).map((list) => list.title));
 
 	// functions
 	function getRandomTodo(todos) {
@@ -65,6 +66,7 @@
 	function closeModal() {
 		if (todos.length != 0) {
 			listStore[uniqueId] = {
+				categoty,
 				title,
 				todos,
 				createdAt,
