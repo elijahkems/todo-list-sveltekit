@@ -66,7 +66,6 @@
 	function closeModal() {
 		if (todos.length != 0) {
 			listStore[uniqueId] = {
-				categoty,
 				title,
 				todos,
 				createdAt,

@@ -48,7 +48,9 @@
 		listStore[uniqueId].todos = newTodos;
 		isModalOpen = false;
 	}
-	$effect(() => {});
+	$effect(() => {
+		$inspect(title, ' was clicked');
+	});
 </script>
 
 {#if isModalOpen}

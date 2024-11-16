@@ -4,11 +4,12 @@
 	import { listStore } from '$lib/stores.svelte';
 	import Card from '../../components/Card.svelte';
 	import SideBar from '../../components/SideBar.svelte';
+	import bars from '$lib/assets/bars-solid (1).svg';
+	import { isSideOpen } from '$lib/stores.svelte';
 
 	// state
 	let isModalOpen = $state(false);
 	let numberOfTodos = $derived(Object.entries(listStore).length);
-	let isSideOpen = $state(true);
 	// functions
 	function createList() {
 		isModalOpen = !isModalOpen;
@@ -18,12 +19,17 @@
 <SideBar />
 <!-- todo page -->
 <div class="flex min-h-screen flex-col items-center bg-background p-6">
-	<!-- sidebar -->
 	<!-- add new list -->
 	<div class="mb-4 ml-16 mr-auto">
 		<button
-			onclick={createList}
 			class=" rounded-md border-accent bg-accent px-4 py-3 text-primaryText hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-accent active:bg-accent"
+			onclick={() => (isSideOpen.state = !isSideOpen.state)}
+		>
+			categories
+		</button>
+		<button
+			onclick={createList}
+			class="ml-10 rounded-md border-accent bg-accent px-4 py-3 text-primaryText hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-accent active:bg-accent"
 		>
 			New List
 		</button>

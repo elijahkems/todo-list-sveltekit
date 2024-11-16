@@ -28,23 +28,25 @@
 			out:fly={{ x: -200 }}
 			class="absolute left-0 top-0 h-full w-64 bg-background px-4 text-white"
 		>
+			<!-- close button -->
 			<div class="flex h-16">
 				<button
-					class=" ml-auto w-6 border-none text-4xl text-lightShade hover:opacity-80"
+					class=" ml-auto w-6 border-none text-4xl text-lightShade hover:text-accent hover:opacity-80"
 					onclick={() => (isSideOpen.state = !isSideOpen.state)}>&lt;</button
 				>
 			</div>
 			<div class="flex flex-col space-y-4">
-				<h3 class="px-4 text-2xl">categories</h3>
+				<h3 class="px-4 text-3xl">categories</h3>
 				<!-- list -->
+
 				{#each categoryList as category}
-					<li
-						class="flex items-center justify-between rounded-lg bg-lightShade p-4 text-primaryText shadow"
+					<div
+						class=" flex items-center justify-between rounded-lg bg-lightShade p-4 text-primaryText shadow hover:opacity-80"
 					>
 						<div class="flex items-center">
 							{category}
 						</div>
-					</li>
+					</div>
 				{/each}
 			</div>
 		</div>

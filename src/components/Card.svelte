@@ -1,7 +1,6 @@
 <script>
 	import { listStore } from '$lib/stores.svelte';
 	import CardModal from './CardModal.svelte';
-	import Modal from './Modal.svelte';
 	import PopupModal from './PopupModal.svelte';
 
 	// props
@@ -17,7 +16,6 @@
 	}
 	function editCard() {
 		isModalOpen = !isModalOpen;
-		if (!isModalOpen) isModalOpen = true;
 	}
 
 	function cancelHandler() {
@@ -31,7 +29,9 @@
 
 <!-- popup modal  -->
 <PopupModal bind:isPopUpOpen onCancel={cancelHandler} onConfirm={confirmHandler} {title} />
-<CardModal {isModalOpen} {uniqueId} />
+{#if isModalOpen}
+	<CardModal bind:isModalOpen {uniqueId} />
+{/if}
 
 <div class="h-full w-full max-w-lg rounded-lg bg-secondaryBackground p-8 shadow-lg">
 	<!--card title -->
